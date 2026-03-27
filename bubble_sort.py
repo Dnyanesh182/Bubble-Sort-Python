@@ -1,18 +1,18 @@
-# UC5 – Handle sorting of duplicate elements correctly while maintaining stability
+# UC6 – Apply Bubble Sort on list of strings using lexicographical order
 
-from typing import List, Tuple
+from typing import List
 
 
 class BubbleSort:
-    """Class to implement stable Bubble Sort."""
+    """Class to implement Bubble Sort for strings."""
 
     @staticmethod
-    def sort(data: List[Tuple[int, str]]) -> List[Tuple[int, str]]:
+    def sort(data: List[str]) -> List[str]:
         """
-        Sorts list of tuples based on first element while maintaining stability.
+        Sorts a list of strings lexicographically.
 
-        :param data: List of tuples (value, identifier)
-        :return: Sorted list preserving order of duplicates
+        :param data: List of strings
+        :return: Sorted list
         """
         n: int = len(data)
 
@@ -21,8 +21,7 @@ class BubbleSort:
 
         for i in range(n):
             for j in range(0, n - i - 1):
-                # Compare only values (first element)
-                if data[j][0] > data[j + 1][0]:
+                if data[j] > data[j + 1]:
                     data[j], data[j + 1] = data[j + 1], data[j]
 
         return data
@@ -30,19 +29,11 @@ class BubbleSort:
 
 def main() -> None:
     """Main execution function."""
-    data: List[Tuple[int, str]] = [
-        (5, "A"),
-        (3, "B"),
-        (5, "C"),
-        (2, "D"),
-        (3, "E"),
-    ]
+    data: List[str] = ["banana", "apple", "cherry", "date"]
 
     print("Original List:", data)
-
-    sorted_data: List[Tuple[int, str]] = BubbleSort.sort(data.copy())
-
-    print("Sorted List (Stable):", sorted_data)
+    sorted_data: List[str] = BubbleSort.sort(data.copy())
+    print("Sorted List:", sorted_data)
 
 
 if __name__ == "__main__":
