@@ -1,31 +1,19 @@
-# UC7 – Sort custom objects using Bubble Sort with key (e.g., sort by age)
+# UC8 – Analyze time complexity of Bubble Sort with different input sizes
 
-from typing import List, Callable, TypeVar
-
-T = TypeVar("T")
-
-
-class Person:
-    """Represents a person with name and age."""
-
-    def __init__(self, name: str, age: int) -> None:
-        self.name = name
-        self.age = age
-
-    def __repr__(self) -> str:
-        return f"({self.name}, {self.age})"
+from typing import List
+import time
+import random
 
 
 class BubbleSort:
-    """Class to implement Bubble Sort for custom objects."""
+    """Class to implement optimized Bubble Sort."""
 
     @staticmethod
-    def sort(data: List[T], key: Callable[[T], int]) -> List[T]:
+    def sort(data: List[int]) -> List[int]:
         """
-        Sorts a list of objects based on a key function.
+        Sorts a list using optimized Bubble Sort.
 
-        :param data: List of objects
-        :param key: Function to extract comparison key
+        :param data: List of integers
         :return: Sorted list
         """
         n: int = len(data)
@@ -34,29 +22,35 @@ class BubbleSort:
             return data
 
         for i in range(n):
+            swapped: bool = False
             for j in range(0, n - i - 1):
-                if key(data[j]) > key(data[j + 1]):
+                if data[j] > data[j + 1]:
                     data[j], data[j + 1] = data[j + 1], data[j]
+                    swapped = True
+            if not swapped:
+                break
 
         return data
 
 
+def analyze_performance(sizes: List[int]) -> None:
+    """Analyzes execution time for different input sizes."""
+    for size in sizes:
+        data: List[int] = [random.randint(1, 1000) for _ in range(size)]
+
+        start_time: float = time.time()
+        BubbleSort.sort(data.copy())
+        end_time: float = time.time()
+
+        print(f"Input Size: {size}, Time Taken: {end_time - start_time:.6f} seconds")
+
+
 def main() -> None:
     """Main execution function."""
-    people: List[Person] = [
-        Person("Alice", 30),
-        Person("Bob", 25),
-        Person("Charlie", 30),
-        Person("David", 20),
-    ]
+    sizes: List[int] = [10, 100, 500, 1000]
 
-    print("Original List:", people)
-
-    sorted_people: List[Person] = BubbleSort.sort(
-        people.copy(), key=lambda person: person.age
-    )
-
-    print("Sorted List (by age):", sorted_people)
+    print("Bubble Sort Time Complexity Analysis:")
+    analyze_performance(sizes)
 
 
 if __name__ == "__main__":
